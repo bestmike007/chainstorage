@@ -30,6 +30,7 @@ type (
 		StorageType    StorageType          `mapstructure:"storage_type"`
 		Chain          ChainConfig          `mapstructure:"chain"`
 		AWS            AwsConfig            `mapstructure:"aws"`
+		GCP            *GcpConfig           `mapstructure:"gcp"`
 		Cadence        CadenceConfig        `mapstructure:"cadence"`
 		Workflows      WorkflowsConfig      `mapstructure:"workflows"`
 		Api            ApiConfig            `mapstructure:"api"`
@@ -111,6 +112,11 @@ type (
 		DLQ                    SQSConfig      `mapstructure:"dlq"`
 		Storage                StorageConfig  `mapstructure:"storage"`
 		AWSAccount             AWSAccount     `mapstructure:"aws_account" validate:"required"`
+	}
+
+	GcpConfig struct {
+		Project          string `mapstructure:"project" validate:"required"`
+		BigTableInstance string `mapstructure:"bigtable_instance"`
 	}
 
 	DynamoDBConfig struct {
@@ -362,6 +368,7 @@ var (
 	MetaStorageType_value = map[string]int32{
 		"UNSPECIFIED": 0,
 		"DYNAMODB":    1,
+		"BIGTABLE":    2,
 	}
 
 	DLQType_value = map[string]int32{
@@ -393,6 +400,7 @@ const (
 
 	MetaStorageType_UNSPECIFIED MetaStorageType = 0
 	MetaStorageType_DYNAMODB    MetaStorageType = 1
+	MetaStorageType_BIGTABLE    MetaStorageType = 2
 
 	DLQType_UNSPECIFIED DLQType = 0
 	DLQType_SQS         DLQType = 1

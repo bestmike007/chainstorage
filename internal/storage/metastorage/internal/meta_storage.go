@@ -52,6 +52,7 @@ type (
 		fx.In
 		fxparams.Params
 		DynamoDB MetaStorageFactory `name:"metastorage/dynamodb"`
+		BigTable MetaStorageFactory `name:"metastorage/bigtable"`
 	}
 )
 
@@ -61,6 +62,8 @@ func WithMetaStorageFactory(params MetaStorageFactoryParams) (Result, error) {
 	switch storageType {
 	case config.MetaStorageType_UNSPECIFIED, config.MetaStorageType_DYNAMODB:
 		factory = params.DynamoDB
+	case config.MetaStorageType_BIGTABLE:
+		factory = params.BigTable
 	}
 	if factory == nil {
 		return Result{}, xerrors.Errorf("meta storage type is not implemented: %v", storageType)
